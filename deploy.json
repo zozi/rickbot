@@ -1,0 +1,25 @@
+{
+  "server": "zozi@ocean-zb1",
+  "server_dir": "/home/zozi",
+  "repo": "git://github.com/zozi/zozibot.git",
+  "prj_git_relative_dir": "",
+  "branch": "master",
+  "force_regenerate_git_dir": true,
+  "shared_dirs": [
+    "node_modules",
+    "db",
+    "pids"
+  ],
+  "prerun": [
+    "npm cache clear",
+    "npm cache clean",
+    "npm install",
+    "npm test",
+    "ln -nfs ~/shared/bin/.hubotrc.hipchat bin/.hubotrc.hipchat",
+    "ln -nfs ~/shared/bin/daemon.hipchat.sh bin/daemon.hipchat.sh",
+
+    "ln -nfs ~/shared/bin/.hubotrc.slack bin/.hubotrc.slack",
+    "ln -nfs ~/shared/bin/daemon.slack.sh bin/daemon.slack.sh"
+  ],
+  "run_cmd": "bin/daemon.hipchat.sh restart && bin/daemon.slack.sh restart"
+}
