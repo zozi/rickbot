@@ -12,6 +12,17 @@ has, etc!
 [hubot]: http://hubot.github.com
 [generator-hubot]: https://github.com/github/generator-hubot
 
+### Deploying (ZOZI specific)
+
+    % mina deploy
+
+Sometimes Rickbot gets sad and leaves the room. To get it to come back you can run a shell script on is server:
+
+1. `ssh ocean-zb1`
+2. `cd ~/current`
+3. `bin/daemon.hipchat.sh start`
+4. `bin/daemon.slack.sh start`
+
 ### Running rickbot Locally
 
 You can test your hubot by running the following, however some plugins will not
