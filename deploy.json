@@ -1,7 +1,7 @@
 {
   "server": "zozi@ocean-zb1",
   "server_dir": "/home/zozi",
-  "repo": "git://github.com/zozi/zozibot.git",
+  "repo": "git://github.com/zozi/rickbot.git",
   "prj_git_relative_dir": "",
   "branch": "master",
   "force_regenerate_git_dir": true,
