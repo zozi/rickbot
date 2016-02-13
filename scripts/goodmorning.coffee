@@ -265,12 +265,26 @@ partingPhrases = [
   "Do you remember the Shire, Mr. Frodo? It'll be spring soon. And the orchards will be in blossom. And the birds will be nesting in the hazel thicket. And they'll be sowing the summer barley in the lower fields... and eating the first of the strawberries with cream. Do you remember the taste of strawberries?",
   "'And yet their wills did not yield, and they struggled on.' - J.R.R. Tolkien",
   "Go carefully and return when you can. I will be waiting for you.",
-  "I'll be here when you get back, I promise!"
+  "I'll be here when you get back, I promise!",
+  "I'll be back",
+  "I don't know when I'll see you again... maybe tomorrow?",
+  "So long smell ya later!",
+  "Have a nice life.",
+  "Eight days a week, I looooove you",
+  "So darlin' darlin' stand, by me... oh you're leaving? Nevermind then.",
 ]
 
 Util = require "util"
 
 module.exports = (robot) ->
+  mentionName = (user) ->
+    if user.mention_name
+      "@#{user.mention_name}"
+    else if user.id
+      "<@#{user.id}>"
+    else
+      "@#{user.name}"
+
   robot.respond /(good morning|hello|bonjour|hola)/i, (msg) ->
     greeting = msg.match[1].trim()
     compliment = msg.random compliments
@@ -281,20 +295,33 @@ module.exports = (robot) ->
     username = msg.match[2].trim()
     users = robot.brain.usersForFuzzyName(username)
     if users.length == 1
-      if username.match /@?all$/ 
+      if username.match /@?all$/
         user = robot.brain.usersForFuzzyName(msg.message.user.name)[0]
       else if username.match ///#{robot.name}///i
         msg.send "Ah! you are talking to me!!!"
         user = robot.brain.usersForFuzzyName(msg.message.user.name)[0]
       else
         user = users[0]
+      compliment = msg.random compliments
+      msg.send "#{greeting} #{mentionName user}! #{compliment}"
     else if users.length == 0
       msg.send "(wat) no one by that name here."
-    compliment = msg.random compliments
-    msg.send "#{greeting} @#{user.mention_name}! #{compliment}"
 
-  robot.hear /(?:good\s?night|goodbye|'night|I'm out|chau|ciao|hasta la vista|adios)\s?(@?[\w.-]+)?/i, (msg) ->
-    user = msg.match[1] || msg.message.user.name
-    if user.match /@?all$/ or username.match ///#{robot.name}///i
-      user = msg.message.user.name
-    msg.send "Good night #{user}! #{msg.random partingPhrases}"
+  robot.hear /(?:good\s?night|goodbye|'night|I'm out|chau|ciao|hasta la vista|adios)\s?@?([\w.-]+)?/i, (msg) ->
+    if username = msg.match[1]
+      username = username.trim()
+      users = robot.brain.usersForFuzzyName(username)
+      if users.length == 1
+        if username.match /@?all$/
+          user = robot.brain.usersForFuzzyName(msg.message.user.name)[0]
+        else if username.match ///#{robot.name}///i
+          msg.send "Ah! you are talking to me!!!"
+          user = robot.brain.usersForFuzzyName(msg.message.user.name)[0]
+        else
+          user = users[0]
+        compliment = msg.random compliments
+        msg.send "Good night #{mentionName user}! #{msg.random partingPhrases}"
+      else if users.length == 0
+        msg.send "(wat) no one by that name here."
+    else
+      msg.send "Good night! #{msg.random partingPhrases}"
