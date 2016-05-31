@@ -20,8 +20,7 @@ Sometimes Rickbot gets sad and leaves the room. To get it to come back you can r
 
 1. `ssh ocean-zb1`
 2. `cd ~/current`
-3. `bin/daemon.hipchat.sh start`
-4. `bin/daemon.slack.sh start`
+3. `bin/daemon.slack.sh start`
 
 ### Running rickbot Locally
 
